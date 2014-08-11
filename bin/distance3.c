@@ -1,3 +1,8 @@
+/*
+original from https://code.google.com/p/word2vec/
+modefied by t.uehara
+*/
+
 //  Copyright 2013 Google Inc. All Rights Reserved.
 //
 //  Licensed under the Apache License, Version 2.0 (the "License");

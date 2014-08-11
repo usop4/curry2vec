@@ -25,7 +25,7 @@
 <div class="container">
 
     <div class="page-header">
-        <h1>curry2vec</h1>
+        <h1>curry2vec.</h1>
     </div>
 
     <div class="row">
