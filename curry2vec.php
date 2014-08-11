@@ -22,16 +22,30 @@
 </head>
 <body>
 
+<?php
+$kws = ["カレー","カレー","カツカレー","キーマカレー",
+        "CoCo壱番屋","ゴーゴーカレー",
+        "東銀座","新橋","大阪","神保町",
+        "茄子","トマト","ヨーグルト","タマネギ","あさり",
+        "鯖","チキン","シーフード","エビ"];
+if( isset($_GET["key1"]) ){
+    $kw = $_GET["key1"];
+}else{
+    $kw = $kws[rand(0,count($kws)-1)];
+}
+?>
+
 <div class="container">
 
     <div class="page-header">
-        <h1>curry2vec.</h1>
+        <h1>curry2vec</h1>
     </div>
+
 
     <div class="row">
         <div class="col-xs-4">
             <form role="form">
-                <input onkeyup="load_distance()" id="key1" type="text" class="form-control" value="カレー">
+                <input name="key1" onkeyup="load_distance()" id="key1" type="text" class="form-control" value="<?php echo $kw;?>">
             </form>
             <button class="btn btn-default btn-xs" onclick="searchRakuten()">楽天で探す</button>
             <button class="btn btn-default btn-xs" onclick="searchGnavi()">ぐるなびで探す</button>

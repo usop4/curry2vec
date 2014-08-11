@@ -21,12 +21,9 @@ while line:
     'foodImageUrl','pickup','shop','nickname','recipeMaterial','recipeDescription','categoryUrl','recipeCost',
     'recipeIndication',
     'google','ISBN','rakuten',
-    '曖昧さ回避','カレーを食べに行こう','に関する','ある','に関して','指定なし',
-    '店舗情報を見る','クーポンを見る','おすすめの口コミを個選定しました','おすすめ 口コミ',
+    '曖昧さ回避','カレーを食べに行こう','に関する','に関して','指定なし',
+    '店舗情報を見る','クーポンを見る',
     'ブログ','Tweet','はてなブックマーク','マイナビニュース','Retty'
-  ]
-
-  dummy = [
   ]
 
   for word in dict:
