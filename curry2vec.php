@@ -26,8 +26,10 @@
 $kws = ["カレー","カレー","カツカレー","キーマカレー",
         "CoCo壱番屋","ゴーゴーカレー",
         "東銀座","新橋","大阪","神保町",
-        "茄子","トマト","ヨーグルト","タマネギ","あさり",
-        "鯖","チキン","シーフード","エビ"];
+        "南インド","北インド","欧風",
+        "茄子","トマト","ヨーグルト","タマネギ","あさり","豆腐",
+        "ビーフ","サバ","チキン","シーフード","エビ",
+        "専門店","テレビ"];
 if( isset($_GET["key1"]) ){
     $kw = $_GET["key1"];
 }else{
@@ -82,7 +84,7 @@ if( isset($_GET["key1"]) ){
                         $s = "";
                         if( isset($_GET["url"]) ){
                             $url = $_GET["url"];
-                            $pdo = new PDO('sqlite:copus.db');
+                            $pdo = new PDO('sqlite:corpus.db');
                             $stmt = $pdo->prepare("SELECT * FROM corpus WHERE url LIKE '".$url."%' LIMIT 1");
                             $stmt->execute();
                             while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
@@ -93,6 +95,9 @@ if( isset($_GET["key1"]) ){
                         <div class="form-group">
                             <label for="inputText">本文</label>
                             <input name="content" type="text" class="form-control input-sm" value="<?php echo $s;?>">
+                            <!--
+                            <textarea name="content" class="form-control input-sm"><?php echo $s;?></textarea>
+                            -->
                         </div>
                         <button type="submit" class="btn btn-warning">登録</button>
                     </form>

@@ -19,7 +19,7 @@ $menu = <<<MENU
 <br>
 MENU;
 
-$pdo = new PDO('sqlite:copus.db');
+$pdo = new PDO('sqlite:corpus.db');
 
 if( isset($_GET["mode"]) ){
 
@@ -33,13 +33,22 @@ if( isset($_GET["mode"]) ){
 
     }elseif( $_GET["mode"] === "insert" ){
 
+        $url = $_POST["url"];
         $stmt = $pdo->prepare("DELETE FROM corpus WHERE url=?");
-        $stmt->execute([$_POST["url"]]);
+        $stmt->execute([$url]);
 
         $stmt = $pdo->prepare("INSERT INTO corpus VALUES(?,?,?)");
-        $stmt->execute([$d,$_POST["url"],$_POST["content"]]);
-        if( strlen($_POST["url"]) > 2 ){
-            header("Location: ".$_POST["url"]);
+        $stmt->execute([$d,$url,$_POST["content"]]);
+
+        /*
+        echo '<a href="'.$url.'">'.$url.'</a><br>';
+        echo '<a href="db.php">db.php</a><br>';
+        echo '<a href="db_check.php?url='.$url.'">db_check.php</a><br>';
+        exit();
+        */
+
+        if( strlen($url) > 2 ){
+            header("Location: db_check.php?url=".$url);
         }else{
             header("Location: curry2vec.php");
         }
@@ -79,7 +88,7 @@ if( isset($_GET["mode"]) ){
         //var_dump($result);
 
         echo '<a href="?mode=del&id='.$result["id"].'">[x]</a> ';
-        echo $result["id"]." ";
+        echo '<a href="db_check.php?id='.$result["id"].'">'.$result["id"].'</a> ';
         echo '<a href="'.$result["url"].'">'.urldecode($result["url"]).'</a> ';
         if( @strpos($result["content"],$q) ){
             @$start = strpos($result["content"],$q);
