@@ -23,13 +23,16 @@
 <body>
 
 <?php
-$kws = ["カレー","カレー","カツカレー","キーマカレー",
+$kws = ["札幌 スープカレー 金沢",
+        "カレー","カレー","カツカレー","キーマカレー",
         "CoCo壱番屋","ゴーゴーカレー",
-        "東銀座","新橋","大阪","神保町",
+        "東銀座","新橋","大阪","神保町","下北沢",
         "南インド","北インド","欧風",
         "茄子","トマト","ヨーグルト","タマネギ","あさり","豆腐",
         "ビーフ","サバ","チキン","シーフード","エビ",
-        "専門店","テレビ"];
+        "専門店",
+        "ビール","ワイン","ビール ワイン インド",
+        "口コミ","行列","テレビ","コラボ"];
 if( isset($_GET["key1"]) ){
     $kw = $_GET["key1"];
 }else{
@@ -49,9 +52,11 @@ if( isset($_GET["key1"]) ){
             <form role="form">
                 <input name="key1" onkeyup="load_distance()" id="key1" type="text" class="form-control" value="<?php echo $kw;?>">
             </form>
-            <button class="btn btn-default btn-xs" onclick="searchRakuten()">楽天で探す</button>
-            <button class="btn btn-default btn-xs" onclick="searchGnavi()">ぐるなびで探す</button>
-            <button class="btn btn-default btn-xs" onclick="searchYahoo()">Yahoo!で探す</button>
+            <button class="btn btn-default btn-xs" onclick="searchUrl('http://search.rakuten.co.jp/search/mall?sitem=')">楽天で探す</button>
+            <button class="btn btn-default btn-xs" onclick="searchUrl('http://r.gnavi.co.jp/food/curry/rs/?fw=')">ぐるなびで探す</button>
+            <button class="btn btn-default btn-xs" onclick="searchUrl('http://search.yahoo.co.jp/search?p=')">Yahoo!で探す</button>
+            <br>
+            <button class="btn btn-default btn-xs" onclick="searchUrl('http://barcelona-prototype.com/curry/db.php?q=')">コーパスを確認する（開発者用）</button>
         </div>
         <div class="col-xs-4">
             distance:<div id="target1"></div>
@@ -120,10 +125,9 @@ if( isset($_GET["key1"]) ){
         load_distance();
     });
 
-    function searchRakuten(){
+    function searchUrl(url){
         var s = $("#key1").val().replace(/\s/g,"+");
-        var url = "http://search.rakuten.co.jp/search/mall?sitem="+s;
-        location.href = url;
+        location.href = url+s;
     }
 
     function searchGnavi(){

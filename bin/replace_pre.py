@@ -21,6 +21,13 @@ while line:
     'foodImageUrl','pickup','shop','nickname','recipeMaterial','recipeDescription','categoryUrl','recipeCost',
     'recipeIndication',
     'google','Google','ISBN','rakuten','Facebook','Twitter','Tweet',
+    '￫ܫ￩','>_<','◑∀◑','･ω･','´▽`',
+    '≧∇≦','^^','^.^','´艸｀','￣ー￣',
+    '❤','♡','♬','✧','♥',
+    '▽','∇','∀',
+    '↑','↓','←','→',
+    '⇒','♪',
+    '－','＃',
     'ブログ','はてなブックマーク','マイナビニュース','Retty',
     '曖昧さ回避','カレーを食べに行こう','に関する','に関して','指定なし',
     '店舗情報を見る','クーポンを見る'

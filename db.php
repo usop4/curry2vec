@@ -14,7 +14,7 @@ $menu = <<<MENU
 <input type="text" name="q" value="{$_GET["q"]}">
 <input type="submit" value="検索">
 </form>
-<a href="curry2vec.php">index</a>
+<a href="curry2vec.php">curry2vec</a>
 <a href="?mode=raw">raw</a>
 <br>
 MENU;
@@ -75,15 +75,17 @@ if( isset($_GET["mode"]) ){
     echo $menu;
 
     if( isset($_GET["q"]) ){
-        $q = $_GET["q"];
-        $sql = "SELECT * FROM corpus WHERE content LIKE '%".$q."%' ORDER BY id DESC LIMIT 100";
+        $q = explode(" ",$_GET["q"]);
+        $sql = "SELECT * FROM corpus WHERE (url LIKE ? OR content LIKE ?) AND content LIKE ? AND content LIKE ? ORDER BY id DESC LIMIT 100";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute(["%".$q[0]."%","%".$q[0]."%","%".$q[1]."%","%".$q[2]."%"]);
     }else{
         $q = "";
         $sql = "SELECT * FROM corpus ORDER BY id DESC LIMIT 100";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute();
     }
 
-    $stmt = $pdo->prepare($sql);
-    $stmt->execute();
     while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
         //var_dump($result);
 
