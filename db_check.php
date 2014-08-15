@@ -8,6 +8,14 @@
 
 header("Content-Type: text/html; charset=UTF-8");
 
+if( isset($_GET["mode"]) ){
+    if( $_GET["mode"] === "mecab" ){
+        $cmd = $_POST["k1"].",*,*,100,名詞,".$_POST["k2"].",*,*,*,*,,,";
+        exec("echo ".$cmd." >> /home/barcelona/www/curry/bin/Others.csv");
+        exec("sleep 0.1;zsh /home/barcelona/www/curry/bin/curry.sh");
+    }
+}
+
 $date = new DateTime($time="now",new DateTimeZone('Asia/Tokyo'));
 $d = $date->format('Y-m-dTH:i:s');
 
@@ -48,7 +56,7 @@ while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
     echo '<textarea name="content" rows="10" cols="100">'.$content.'</textarea><br>';
     echo '<input type="submit">※修正したい場合のみ（手作業で広告を除去など）';
     echo '</form>';
-    file_put_contents("temp.txt",$content);
+    file_put_contents("temp.txt",$result["content"]);
 
     $checked = exec("zsh /home/barcelona/www/curry/db_check.sh");
     echo '<p>Mecab処理プレビュー（開発者用）</p>';
@@ -61,14 +69,6 @@ while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
 <input type="submit">
 </form>
 FORM;
-
-    if( isset($_GET["mode"]) ){
-        if( $_GET["mode"] === "mecab" ){
-            $cmd = $_POST["k1"].",*,*,100,名詞,".$_POST["k2"].",*,*,*,*,,,";
-            echo $cmd;
-            exec("echo ".$cmd." >> /home/barcelona/www/curry/bin/Others.csv");
-        }
-    }
 
 
 }

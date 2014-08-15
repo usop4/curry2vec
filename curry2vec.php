@@ -1,10 +1,31 @@
+<?php
+$kws = ["札幌 スープカレー 金沢",
+    "カレー","カレー","カツカレー","キーマカレー","マッサマン",
+    "CoCo壱番屋","ゴーゴーカレー",
+    "野菜を食べるカレー","カレーは飲み物",
+    "チーズクルチャ","ウスターソース",
+    "カーナピーナ シャンティ イエローカンパニー",
+    "東銀座","新橋","大阪","神保町","下北沢",
+    "南インド","北インド","北インド 南インド","欧風",
+    "バーモント",
+    "茄子","トマト","ヨーグルト","タマネギ","豆腐",
+    "ビーフ","サバ","チキン","シーフード","エビ","トッピング",
+    "タモリ","イチロー",
+    "ビール","ワイン","ビール ワイン インド",
+    "行列","テレビ","コラボ"];
+if( isset($_GET["key1"]) ){
+    $kw = $_GET["key1"];
+}else{
+    $kw = $kws[rand(0,count($kws)-1)];
+}
+?>
 <!DOCTYPE html>
 <html lang="ja">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>curry2vec</title>
+    <title>curry2vec ～ カレーを機械学習</title>
 
     <!-- Bootstrap -->
     <link rel="stylesheet" href="bootstrap.css">
@@ -22,28 +43,10 @@
 </head>
 <body>
 
-<?php
-$kws = ["札幌 スープカレー 金沢",
-        "カレー","カレー","カツカレー","キーマカレー",
-        "CoCo壱番屋","ゴーゴーカレー",
-        "東銀座","新橋","大阪","神保町","下北沢",
-        "南インド","北インド","欧風",
-        "茄子","トマト","ヨーグルト","タマネギ","あさり","豆腐",
-        "ビーフ","サバ","チキン","シーフード","エビ",
-        "専門店",
-        "ビール","ワイン","ビール ワイン インド",
-        "口コミ","行列","テレビ","コラボ"];
-if( isset($_GET["key1"]) ){
-    $kw = $_GET["key1"];
-}else{
-    $kw = $kws[rand(0,count($kws)-1)];
-}
-?>
-
 <div class="container">
 
     <div class="page-header">
-        <h1>curry2vec</h1>
+        <h1><a href="curry2vec.php">curry2vec</a> ～ カレーを機械学習</h1>
     </div>
 
 
@@ -57,6 +60,9 @@ if( isset($_GET["key1"]) ){
             <button class="btn btn-default btn-xs" onclick="searchUrl('http://search.yahoo.co.jp/search?p=')">Yahoo!で探す</button>
             <br>
             <button class="btn btn-default btn-xs" onclick="searchUrl('http://barcelona-prototype.com/curry/db.php?q=')">コーパスを確認する（開発者用）</button>
+            <br>
+            <p>※タイトルをクリックすると、キーワードが変わります。</p>
+            <p>※解説記事→<a href="http://goodsite.cocolog-nifty.com/uessay/2014/08/curry2vec.html">カレーを機械学習するcurry2vec</a></p>
         </div>
         <div class="col-xs-4">
             distance:<div id="target1"></div>

@@ -16,12 +16,24 @@ while line:
     p = re.compile(pattern)
     line = p.sub('',line)
 
+  # ma888tsu対策
+  line = line.replace("にー","に")
+  line = line.replace("たー","た")
+  line = line.replace("いー","い")
+  line = line.replace("りー","り")
+  line = line.replace("とー","と")
+  line = line.replace("るー","る")
+  line = line.replace("でー","で")
+  line = line.replace("｢","「")
+  line = line.replace("｣","」")
+
   dict = [
     'results','result','recipeId','recipeTitle','recipeUrl','categoryName','recipePublishday',
     'foodImageUrl','pickup','shop','nickname','recipeMaterial','recipeDescription','categoryUrl','recipeCost',
     'recipeIndication',
+    '"',
     'google','Google','ISBN','rakuten','Facebook','Twitter','Tweet',
-    '￫ܫ￩','>_<','◑∀◑','･ω･','´▽`',
+    '￫ܫ￩','>_<','◑∀◑','･ω･','´▽`','・▽・',
     '≧∇≦','^^','^.^','´艸｀','￣ー￣',
     '❤','♡','♬','✧','♥',
     '▽','∇','∀',
