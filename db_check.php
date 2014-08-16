@@ -12,7 +12,7 @@ if( isset($_GET["mode"]) ){
     if( $_GET["mode"] === "mecab" ){
         $cmd = $_POST["k1"].",*,*,100,名詞,".$_POST["k2"].",*,*,*,*,,,";
         exec("echo ".$cmd." >> /home/barcelona/www/curry/bin/Others.csv");
-        exec("sleep 0.1;zsh /home/barcelona/www/curry/bin/curry.sh");
+        exec("sleep 0.1;zsh /home/barcelona/www/curry/bin/curry_mecab_only.sh");
     }
 }
 

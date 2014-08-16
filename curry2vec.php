@@ -1,5 +1,7 @@
 <?php
-$kws = ["札幌 スープカレー 金沢",
+$kws = [
+    "札幌 スープカレー 金沢",
+    "札幌 マジックスパイス 金沢",
     "カレー","カレー","カツカレー","キーマカレー","マッサマン",
     "CoCo壱番屋","ゴーゴーカレー",
     "野菜を食べるカレー","カレーは飲み物",
@@ -12,7 +14,7 @@ $kws = ["札幌 スープカレー 金沢",
     "ビーフ","サバ","チキン","シーフード","エビ","トッピング",
     "タモリ","イチロー",
     "ビール","ワイン","ビール ワイン インド",
-    "行列","テレビ","コラボ"];
+    "行列","テレビ","孤独のグルメ","コラボ"];
 if( isset($_GET["key1"]) ){
     $kw = $_GET["key1"];
 }else{
@@ -65,10 +67,10 @@ if( isset($_GET["key1"]) ){
             <p>※解説記事→<a href="http://goodsite.cocolog-nifty.com/uessay/2014/08/curry2vec.html">カレーを機械学習するcurry2vec</a></p>
         </div>
         <div class="col-xs-4">
-            distance:<div id="target1"></div>
+            類義語:<div id="target1"></div>
         </div>
         <div class="col-xs-4">
-            analogy:<div id="target2"></div>
+            (3語を指定した場合に)類推される語:<div id="target2"></div>
         </div>
     </div>
 
@@ -99,7 +101,38 @@ if( isset($_GET["key1"]) ){
                             $stmt = $pdo->prepare("SELECT * FROM corpus WHERE url LIKE '".$url."%' LIMIT 1");
                             $stmt->execute();
                             while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
+                                echo "登録済み";
                                 $s = $result["content"];
+                            }
+                            if( strlen($s) < 10 ){
+                                $patterns = [
+                                    'tabelog.com'
+                                    => ['id("column-main")/div[4]/div[2]/div[2]/div/div/p',
+                                        'id("column-main")/div[4]/div[2]/div[2]/div/div[2]/p',
+                                        'id("column-main")/div[5]/div[2]/div[2]/div/div/p',
+                                        'id("column-main")/div[5]/div[2]/div[2]/div/div[2]/p'],
+                                    'retty.me/area/' => ['id("report")/textarea'],
+                                ];
+                                foreach( $patterns as $domain => $xpaths ){
+                                    if( strstr($url,$domain) ){
+                                        @$content = file_get_contents($url);
+                                        @$page = new DOMDocument();
+                                        @$page->loadHTML($content);
+                                        $xpath = new DOMXPath($page);
+                                        $title = $xpath->query('//title')->item(0)->textContent;
+                                        $temp = "";
+                                        foreach( $xpaths as $path){
+                                            $textContent = $xpath->query($path)->item(0)->textContent;
+                                            if( strlen($textContent) > 0 ){
+                                                $temp = $textContent." ".$temp;
+                                            }
+                                        }
+                                        $s = $title." ".$temp;
+                                    }
+                                }
+                                $s = strip_tags($s);
+                                $s = str_replace(["\r\n","\r","\n","\t"], '', $s);
+                                $s = str_replace(["  ","   ","    "], ' ', $s);
                             }
                         }
                         ?>
