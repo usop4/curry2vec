@@ -101,38 +101,46 @@ if( isset($_GET["key1"]) ){
                             $stmt = $pdo->prepare("SELECT * FROM corpus WHERE url LIKE '".$url."%' LIMIT 1");
                             $stmt->execute();
                             while($result = $stmt->fetch(PDO::FETCH_ASSOC)){
-                                echo "登録済み";
+                                echo "★登録済み★";
                                 $s = $result["content"];
                             }
-                            if( strlen($s) < 10 ){
-                                $patterns = [
-                                    'tabelog.com'
-                                    => ['id("column-main")/div[4]/div[2]/div[2]/div/div/p',
-                                        'id("column-main")/div[4]/div[2]/div[2]/div/div[2]/p',
-                                        'id("column-main")/div[5]/div[2]/div[2]/div/div/p',
-                                        'id("column-main")/div[5]/div[2]/div[2]/div/div[2]/p'],
-                                    'retty.me/area/' => ['id("report")/textarea'],
-                                ];
-                                foreach( $patterns as $domain => $xpaths ){
-                                    if( strstr($url,$domain) ){
-                                        @$content = file_get_contents($url);
-                                        @$page = new DOMDocument();
-                                        @$page->loadHTML($content);
-                                        $xpath = new DOMXPath($page);
-                                        $title = $xpath->query('//title')->item(0)->textContent;
-                                        $temp = "";
-                                        foreach( $xpaths as $path){
-                                            $textContent = $xpath->query($path)->item(0)->textContent;
-                                            if( strlen($textContent) > 0 ){
-                                                $temp = $textContent." ".$temp;
-                                            }
+                            $patterns = [
+                                'r.gnavi.co.jp'
+                                => ['id("pr50")',
+                                    'id("pr200")',
+                                    'id("top-mr")/div/ul/li[1]/dl/dd/p[1]',
+                                    'id("top-mr")/div/ul/li[2]/dl/dd/p[1]',
+                                    'id("top-mg")/div/div/span',
+                                    'id("top-news-txt")/span[1]',
+                                    'id("shop_kuchikomi")/div/ul/li[1]/dl/dd',
+                                    'id("shop_kuchikomi")/div/ul/li[2]/dl/dd',
+                                    'id("shop_kuchikomi")/div/ul/li[3]/dl/dd',],
+                                'tabelog.com'
+                                => ['id("column-main")/div[4]/div[2]/div[2]/div/div/p',
+                                    'id("column-main")/div[4]/div[2]/div[2]/div/div[2]/p',
+                                    'id("column-main")/div[5]/div[2]/div[2]/div/div/p',
+                                    'id("column-main")/div[5]/div[2]/div[2]/div/div[2]/p'],
+                                'retty.me/area/' => ['id("report")/textarea'],
+                            ];
+                            foreach( $patterns as $domain => $xpaths ){
+                                if( strstr($url,$domain) ){
+                                    @$content = file_get_contents($url);
+                                    @$page = new DOMDocument();
+                                    @$page->loadHTML($content);
+                                    $xpath = new DOMXPath($page);
+                                    $title = $xpath->query('//title')->item(0)->textContent;
+                                    $temp = "";
+                                    foreach( $xpaths as $path){
+                                        $textContent = $xpath->query($path)->item(0)->textContent;
+                                        if( strlen($textContent) > 0 ){
+                                            $temp = $textContent." ".$temp;
                                         }
-                                        $s = $title." ".$temp;
                                     }
+                                    $s = $title." ".$temp;
+                                    $s = strip_tags($s);
+                                    $s = str_replace(["\r\n","\r","\n","\t"], ' ', $s);
+                                    $s = str_replace(["  ","   ","    "], ' ', $s);
                                 }
-                                $s = strip_tags($s);
-                                $s = str_replace(["\r\n","\r","\n","\t"], '', $s);
-                                $s = str_replace(["  ","   ","    "], ' ', $s);
                             }
                         }
                         ?>
